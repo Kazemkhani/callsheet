@@ -32,8 +32,8 @@ const STATE_WORD: Record<SlotState, string> = {
 /**
  * The crew pool can hold two different people under one name (bench-06 and
  * bench-54 are both "Reem Rahman"), which on a row of ten reads as a rendering
- * bug rather than a fact. Where a surname collides inside one area, the record
- * number is shown so the two chips are visibly two people.
+ * bug rather than a fact. Where a surname collides inside one area, the chip
+ * falls back to the first name so the two chips are visibly two people.
  */
 function collidingLabels(slots: Slot[]): Set<string> {
   const owner = new Map<string, string>();
@@ -48,9 +48,8 @@ function collidingLabels(slots: Slot[]): Set<string> {
   return collisions;
 }
 
-function recordRef(usherId: string): string {
-  const digits = usherId.match(/(\d+)$/);
-  return digits ? digits[1] : usherId;
+function firstName(fullName: string): string {
+  return fullName.trim().split(/\s+/)[0] ?? fullName;
 }
 
 function Chip({
@@ -98,12 +97,7 @@ function Chip({
             : ""
         }`}
       >
-        {person.label}
-        {ambiguous ? (
-          <span className="num ml-1.5 text-[10px] opacity-70">
-            {recordRef(slot.offer.usherId)}
-          </span>
-        ) : null}
+        {ambiguous ? firstName(slot.name ?? person.label) : person.label}
       </span>
       {slot.state === "sent" ? (
         <span

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildCrewPool, generateBench } from "./pool";
 import { buildRoster } from "./build";
+import { personChip } from "@/lib/ui/roster";
 import type { EventBrief } from "@/lib/types";
 
 // The 60-head brief the console demos: six areas, ten heads each.
@@ -53,6 +54,18 @@ describe("bench candidate names", () => {
     for (const [area, firsts] of firstsByArea) {
       const duplicates = firsts.filter((f, i) => firsts.indexOf(f) !== i);
       expect(duplicates, `${area} repeats a first name: ${duplicates.join(", ")}`).toEqual([]);
+    }
+
+    const surnamesByArea = new Map<string, string[]>();
+    for (const offer of offers) {
+      const area = String(offer.area);
+      const list = surnamesByArea.get(area) ?? [];
+      list.push(personChip(byId.get(offer.usherId)!.name).label.toLowerCase());
+      surnamesByArea.set(area, list);
+    }
+    for (const [area, surnames] of surnamesByArea) {
+      const duplicates = surnames.filter((s, i) => surnames.indexOf(s) !== i);
+      expect(duplicates, `${area} repeats a surname: ${duplicates.join(", ")}`).toEqual([]);
     }
   });
 

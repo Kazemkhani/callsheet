@@ -56,6 +56,8 @@ export async function loadSeedUshers(): Promise<SeedUsher[]> {
 // Filipino). Bench candidates take a full name from them so a coordinator never sees the same
 // person twice on screen. First names are allocated globally unique, which also guarantees the
 // weaker property the console cares about: no two offers inside one area share a first name.
+// Surnames follow the same discipline (see generateBench): unique across the whole bench while
+// the list lasts, so a coordinator never sees two "Ezzat"s in one area either.
 const BENCH_FIRST = [
   "Alia", "Shamma", "Moza", "Hessa", "Maitha", "Zayed", "Saif", "Rashid",
   "Hamdan", "Sultan", "Mansoor", "Obaid", "Yasmin", "Heba", "Dalia", "Menna",
@@ -68,14 +70,30 @@ const BENCH_FIRST = [
   "Marilou", "Paolo", "Rommel", "Dennis", "Jomar", "Arnel",
 ];
 const BENCH_LAST = [
+  // Emirati
   "Al Suwaidi", "Al Ketbi", "Al Marzooqi", "Al Hammadi", "Al Zaabi",
-  "Mansour", "Ezzat", "Shokry", "Abdel Aziz",
-  "Haddad", "Darwish", "Kanaan",
-  "Al Masri", "Obeidat", "Rawashdeh",
-  "Feghali", "Aoun", "Bou Saab",
-  "Iyer", "Deshpande", "Kulkarni",
-  "Iqbal", "Siddiqui",
-  "Fernandes", "Villanueva", "Dela Cruz", "Bautista",
+  "Al Mansoori", "Al Shehhi", "Al Neyadi", "Al Dhaheri", "Al Kaabi",
+  // Egyptian
+  "Mansour", "Ezzat", "Shokry", "Abdel Aziz", "Fahmy",
+  "Gaber", "Nour El-Din", "Hegazy", "Farouk", "Salama",
+  // Syrian
+  "Darwish", "Kanaan", "Homsi", "Barakat", "Halabi",
+  "Naddaf", "Sarraf", "Antar", "Haykal", "Chalhoub",
+  // Jordanian
+  "Al Masri", "Obeidat", "Rawashdeh", "Tarawneh", "Qudah",
+  "Khraisha", "Zoubi", "Shawabkeh", "Nsour", "Hijazi",
+  // Lebanese
+  "Feghali", "Aoun", "Bou Saab", "Gemayel", "Frangieh",
+  "Sfeir", "Chami", "Rahme", "Abou Jaoude", "Matar",
+  // Indian
+  "Iyer", "Deshpande", "Kulkarni", "Rao", "Pillai",
+  "Chowdhury", "Banerjee", "Gupta", "Mehta", "Bhatt",
+  // Pakistani
+  "Iqbal", "Siddiqui", "Chaudhry", "Farooqi", "Baig",
+  "Qureshi", "Sheikh", "Raza", "Awan", "Niazi",
+  // Filipino
+  "Villanueva", "Dela Cruz", "Bautista", "Aquino", "Mendoza",
+  "Torres", "Gonzales", "Ramos", "Domingo", "Castillo",
 ];
 const BENCH_CITIES = ["Abu Dhabi", "Dubai", "Sharjah"];
 
@@ -96,16 +114,24 @@ const AREA_SKILLS: Record<string, string[]> = {
  * anchored on the candidate index, then the first surname that keeps the full name unique.
  * `reservedFirstNames` holds the first names already in use by the researched seed crew, so a
  * bench body can never turn up on the roster as a second "Dana" or a second "Reem".
+ *
+ * Surnames follow the same rule: `reservedLastNames` (the seed crew's surnames) are excluded
+ * first, then a candidate is picked that no other bench body has used yet, so no area ever shows
+ * two "Ezzat"s. Only once the surname list itself is exhausted does allocation fall back to the
+ * weaker guarantee (unique full name only, surnames may repeat).
  */
 export function generateBench(
   brief: EventBrief,
   count: number,
   startIndex = 1,
   reservedFirstNames: string[] = [],
+  reservedLastNames: string[] = [],
 ): SeedUsher[] {
   const areas = brief.positions.map((p) => String(p.area));
   const out: SeedUsher[] = [];
   const takenFirst = new Set(reservedFirstNames.map((n) => n.trim().toLowerCase()));
+  const reservedLast = new Set(reservedLastNames.map((n) => n.trim().toLowerCase()));
+  const takenLast = new Set<string>();
   const takenFull = new Set<string>();
   const firstByArea = new Map<string, Set<string>>();
 
@@ -132,12 +158,23 @@ export function generateBench(
     let last: string | undefined;
     for (let k = 0; k < BENCH_LAST.length && !last; k++) {
       const candidate = BENCH_LAST[(n * 3 + k) % BENCH_LAST.length];
-      if (!takenFull.has(`${first} ${candidate}`.toLowerCase())) last = candidate;
+      const key = candidate.toLowerCase();
+      if (reservedLast.has(key) || takenLast.has(key)) continue;
+      last = candidate;
+    }
+    if (!last) {
+      // The distinct-surname list is exhausted; fall back to the pre-existing guarantee (unique
+      // full name only) rather than throwing, since a bench this large can outrun 80 surnames.
+      for (let k = 0; k < BENCH_LAST.length && !last; k++) {
+        const candidate = BENCH_LAST[(n * 3 + k) % BENCH_LAST.length];
+        if (!takenFull.has(`${first} ${candidate}`.toLowerCase())) last = candidate;
+      }
     }
     if (!last) throw new Error(`bench: no distinct surname left for ${first} (candidate ${n})`);
 
     takenFirst.add(first.toLowerCase());
     areaFirsts.add(first.toLowerCase());
+    takenLast.add(last.toLowerCase());
     takenFull.add(`${first} ${last}`.toLowerCase());
 
     const firstTimer = n % 3 === 0; // every third bench body has never worked an event
@@ -175,7 +212,13 @@ export async function buildCrewPool(brief: EventBrief): Promise<CrewPool> {
   const shortfall = Math.max(0, Math.ceil(slots * 1.25) - usable.length);
   const bench =
     shortfall > 0
-      ? generateBench(brief, shortfall, 1, seeded.map((u) => u.name.split(" ")[0]))
+      ? generateBench(
+          brief,
+          shortfall,
+          1,
+          seeded.map((u) => u.name.split(" ")[0]),
+          seeded.map((u) => u.name.split(" ").slice(1).join(" ")),
+        )
       : [];
   return {
     ushers: [...seeded, ...bench],
