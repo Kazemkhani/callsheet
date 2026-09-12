@@ -1,10 +1,33 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { verifyExperience, verifyMany } from "./exa";
 import type { Usher } from "@/lib/types";
 
-// exa-js binds its network layer to `global.fetch` once, at module import
-// time (see node_modules/exa-js dist: `fetchImpl = global.fetch ?? cross-fetch`).
-// So each test resets the module registry and stubs fetch *before* dynamically
-// importing "@/lib/integrations/exa", ensuring exa-js re-captures our stub.
+// exa-js's own HTTP transport (baseURL/headers/error parsing) isn't what we're
+// testing here; we're testing OUR concurrency cap, request spacing, and
+// 429-retry logic in lib/integrations/exa.ts. So exa-js is replaced with a
+// minimal stand-in whose `search()` calls the global `fetch` directly, and
+// each test stubs that `fetch` to prove the throttling behaviour at the true
+// network boundary.
+vi.mock("exa-js", () => {
+  return {
+    default: class {
+      constructor(_apiKey: string) {}
+      async search(query: string, options: unknown) {
+        const res = await fetch("https://api.exa.ai/search", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ query, options }),
+        });
+        if (!res.ok) {
+          const err = new Error("Exa request failed") as Error & { statusCode?: number };
+          err.statusCode = res.status;
+          throw err;
+        }
+        return res.json();
+      }
+    },
+  };
+});
 
 type Call = { url: string; init: RequestInit };
 
@@ -52,7 +75,6 @@ function usher(id: string, pastEvents: string[]): Usher {
 
 beforeEach(() => {
   process.env.EXA_API_KEY = "test-key";
-  vi.resetModules();
 });
 
 afterEach(() => {
@@ -66,7 +88,6 @@ describe("Exa rate limit handling", () => {
       await new Promise((r) => setTimeout(r, 25));
       return resultsResponse([]);
     });
-    const { verifyMany } = await import("@/lib/integrations/exa");
 
     const ushers = Array.from({ length: 8 }, (_, i) =>
       usher(`u${i}`, [`Big Event A ${i}`, `Big Event B ${i}`, `Big Event C ${i}`]),
@@ -79,7 +100,6 @@ describe("Exa rate limit handling", () => {
 
   it("retries a single 429 once after backing off, then surfaces it as an error for the caller to warn on", async () => {
     const { calls } = stubFetch(async () => resultsResponse([], 429));
-    const { verifyExperience } = await import("@/lib/integrations/exa");
 
     const start = Date.now();
     await expect(verifyExperience(usher("u1", ["Some Big Conference 2026"]))).rejects.toThrow(

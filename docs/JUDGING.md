@@ -1,8 +1,10 @@
 # Judging, criterion by criterion
 
-Four criteria, as published: Core Requirements and Functionality, Innovation and Theme Alignment, Technical Execution and Integration, Usefulness and Agentic Experience.
+**Theme.** "Agents are leaving the chatbox. Build an agent for a place people already work, talk, or live, then make it meaningfully more useful because of that context."
 
-One note on honesty before the claims. The rubric's own level 5 text was not to hand while this was written, so each section states our reading of what a top score asks for rather than a quotation. Everything under "Evidence" is a file, a test name or a line from a real run log, and everything under "Known gaps" is a thing a judge would otherwise find on their own.
+Four criteria, as published: Core Requirements and Functionality, Innovation and Theme Alignment, Technical Execution and Integration, Usefulness and Agentic Experience. Each section below quotes the rubric's own "what they look for" text and its level 5 descriptor, then gives what we built, our evidence and our known gaps.
+
+Everything under "Evidence" is a file, a test name or a line from a real run log, and everything under "Known gaps" is a thing a judge would otherwise find on their own.
 
 Verified on build day: 45 unit tests passing across 6 files, `tsc --noEmit` clean, `eslint` clean, and one end to end run whose log is quoted in the [README](../README.md).
 
@@ -10,7 +12,9 @@ Verified on build day: 45 unit tests passing across 6 files, `tsc --noEmit` clea
 
 ## 1. Core Requirements and Functionality
 
-**What a top score asks for.** The thing runs. The demo is not a mock. The loop completes end to end against real services, and the parts that are meant to work, work.
+**What they look for.** "Does the project deliver a working agent inside a place where people already work, talk, or live? Does the core workflow function end to end?"
+
+**Level 5.** "The project is robust, reliable, and fully functional within its intended environment."
 
 **What we built.** One request goes in and a staffed call sheet comes out. Nine steps: parse, research, search, verify, roster, human approval, send, reply, document. Sixty slots across six areas, with a waitlist and per area shortfall reporting. Replies confirm, decline, or promote from the waitlist, and the document is rewritten each time.
 
@@ -30,7 +34,9 @@ Verified on build day: 45 unit tests passing across 6 files, `tsc --noEmit` clea
 
 ## 2. Innovation and Theme Alignment
 
-**What a top score asks for.** The agent belongs in its environment. Take it out of that environment and the idea stops making sense. It is not a chat wrapper with a theme applied to it.
+**What they look for.** "Does the project explore a compelling new place or interaction for agents? Does the environment materially improve what the agent can do?"
+
+**Level 5.** "The project reveals a surprising new agent pattern whose central value could not be reproduced in a standalone chatbox."
 
 **What we built.** Three things a chatbox cannot do.
 
@@ -55,7 +61,9 @@ Third, fairness is a property of the code, not a promise in a reply. Ten per cen
 
 ## 3. Technical Execution and Integration
 
-**What a top score asks for.** The integrations are real and used properly, the failure modes are handled rather than hidden, and someone else could run it.
+**What they look for.** "Consider the code, architecture, reliability, tool use, data handling, and depth of integration with the selected environment."
+
+**Level 5.** "The project demonstrates exceptional engineering, including robust orchestration, thoughtful failure handling, and a deeply integrated architecture."
 
 **What we built.** Four integrations, each used at the point where it is the right tool. Exa for research and verification. Ambiguous as the workspace and system of record. The OpenAI Agents SDK for the tool calling loop, with OpenRouter wired as a fallback provider in chat completions mode. Telegram for the crew's side and Slack Bolt in socket mode for the coordinator's.
 
@@ -82,7 +90,9 @@ The engineering position is that a failure must become visible state. Every exte
 
 ## 4. Usefulness and Agentic Experience
 
-**What a top score asks for.** A person would actually use this. The agent acts, but a human stays in control of the consequential step, and nobody has to learn a new tool to benefit.
+**What they look for.** "Does the project create clear value for its intended users? Is the agent intuitive, effective, and appropriate for the environment in which it operates?"
+
+**Level 5.** "The project unlocks substantial value through an agent experience designed specifically for its environment, using context intelligently while remaining clear and controllable."
 
 **What we built.** The agent proposes and a person disposes, through exactly one gate. `POST /api/agent/approve` is the only path to a send side effect. A run can sit in `awaiting_approval` indefinitely with zero external consequences. The gate is an API boundary rather than an instruction in a prompt, which means it cannot be talked past.
 
