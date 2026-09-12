@@ -45,3 +45,4 @@ next-env.d.ts
 .env.local
 .env
 data/state.json
+docs/research/n8n.md

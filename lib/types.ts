@@ -125,9 +125,14 @@ export interface RunState {
     connected: boolean;
     agentEmail?: string;
     callsheetDocUrl?: string;
+    callsheetDocId?: string;   // added by agent-core: lets the doc be refreshed in place
     projectId?: string;
     lastSyncError?: string;
   };
+  // Added by agent-core (additive, nothing renamed):
+  crew?: Usher[];            // the pool the roster was built from; the UI needs names per offer
+  waitlist?: Offer[];        // next in line per area, promoted on a decline
+  unfilled?: { area: string; needed: number; filled: number }[];
   updatedAt: string;
 }
 
