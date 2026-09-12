@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# secrets and local workspace
+.ambi/
+.env.local
+.env
+data/state.json

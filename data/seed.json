@@ -1,0 +1,905 @@
+{
+  "agencies": [
+    {
+      "name": "THA By Armonia UAE",
+      "website": "https://www.armonia-uae.team/",
+      "staffs": "Exhibitions, conferences, VIP protocol, guest services (e.g. GISEC Global, Six Flags Qiddiya opening ceremony)",
+      "parentGroup": "Armonia Group (France, founded 1974, 1.7B EUR revenue, 44K employees, 27 countries)"
+    },
+    {
+      "name": "Event Lab UAE",
+      "website": "https://www.eventlab.me/",
+      "staffs": "Recruitment + staffing for events, entertainment and guest services across UAE/KSA since 2013",
+      "parentGroup": null
+    },
+    {
+      "name": "GIGZ PLUS",
+      "website": "https://gigzplus.com/",
+      "staffs": "Retail activations, exhibitions & conferences, corporate events, catering staffing (Dubai)",
+      "parentGroup": null
+    },
+    {
+      "name": "Talent BluePrint UAE",
+      "website": "https://talentblueprint-me.com/",
+      "staffs": "Ushers, hospitality, security, stage crew for large-scale events (e.g. Saudi Arabian GP F1 2021-2023, 500+ staff deployed)",
+      "parentGroup": null
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-aies-2026",
+      "name": "AI Everything Summit 2026",
+      "organiser": "inD FZE",
+      "venue": "ADNEC Centre, Abu Dhabi",
+      "dates": [
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "hours": 8.5,
+      "shiftTime": "08:30-18:00",
+      "rateAedPerHour": 34.94,
+      "rateNote": "AED 297 per 8.5-hour shift (as posted by agency)",
+      "training": {
+        "date": "2026-10-05",
+        "durationHours": 2,
+        "mandatory": true
+      },
+      "transport": {
+        "provided": false,
+        "allowanceAed": 30
+      },
+      "meals": {
+        "provided": false,
+        "note": "no food provided"
+      },
+      "positions": [
+        {
+          "area": "Stage",
+          "needed": 10
+        },
+        {
+          "area": "Kids Zone",
+          "needed": 10
+        },
+        {
+          "area": "F&B",
+          "needed": 10
+        },
+        {
+          "area": "Traditional Games",
+          "needed": 10
+        },
+        {
+          "area": "Registration & Scanning",
+          "needed": 10
+        },
+        {
+          "area": "Info Desk",
+          "needed": 10
+        }
+      ]
+    },
+    {
+      "id": "evt-ddw-2026",
+      "name": "Dubai Design Week 2026",
+      "organiser": "Dubai Design & Fashion Council / Downtown Design",
+      "venue": "Dubai Design District (d3), Dubai",
+      "dates": [
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "hours": 8,
+      "shiftTime": "10:00-18:00",
+      "rateAedPerHour": 40,
+      "rateNote": "AED 320 per 8-hour shift",
+      "training": {
+        "date": "2026-11-03",
+        "durationHours": 2,
+        "mandatory": true
+      },
+      "transport": {
+        "provided": true,
+        "allowanceAed": 0
+      },
+      "meals": {
+        "provided": true,
+        "note": "lunch provided"
+      },
+      "positions": [
+        {
+          "area": "Stage",
+          "needed": 10
+        },
+        {
+          "area": "Kids Zone",
+          "needed": 10
+        },
+        {
+          "area": "F&B",
+          "needed": 10
+        },
+        {
+          "area": "Traditional Games",
+          "needed": 10
+        },
+        {
+          "area": "Registration & Scanning",
+          "needed": 10
+        },
+        {
+          "area": "Info Desk",
+          "needed": 10
+        }
+      ]
+    },
+    {
+      "id": "evt-adgp-2026",
+      "name": "Abu Dhabi Grand Prix 2026 (Formula 1 Etihad Airways Abu Dhabi GP)",
+      "organiser": "Ethara / Abu Dhabi Grand Prix",
+      "venue": "Yas Marina Circuit, Abu Dhabi",
+      "dates": [
+        "2026-12-03",
+        "2026-12-04",
+        "2026-12-05",
+        "2026-12-06"
+      ],
+      "hours": 10,
+      "shiftTime": "09:00-19:00",
+      "rateAedPerHour": 45,
+      "rateNote": "AED 450 per 10-hour shift (premium major-event rate)",
+      "training": {
+        "date": "2026-12-01",
+        "durationHours": 3,
+        "mandatory": true
+      },
+      "transport": {
+        "provided": true,
+        "allowanceAed": 0
+      },
+      "meals": {
+        "provided": true,
+        "note": "meals + refreshments provided"
+      },
+      "positions": [
+        {
+          "area": "Stage",
+          "needed": 10
+        },
+        {
+          "area": "Kids Zone",
+          "needed": 10
+        },
+        {
+          "area": "F&B",
+          "needed": 10
+        },
+        {
+          "area": "Traditional Games",
+          "needed": 10
+        },
+        {
+          "area": "Registration & Scanning",
+          "needed": 10
+        },
+        {
+          "area": "Info Desk",
+          "needed": 10
+        }
+      ]
+    }
+  ],
+  "ushers": [
+    {
+      "id": "usher-01",
+      "name": "Omar Tageldin",
+      "nationality": "Syrian",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "Mubadala World Tennis Championship 2025 - Shooting Range",
+        "Etihad Airways brand activation - Promotion Host",
+        "ADNOC Volleyball Court event"
+      ],
+      "skills": [
+        "stage",
+        "info desk",
+        "VIP hosting",
+        "scanning"
+      ],
+      "rating": 3.9,
+      "reliabilityScore": 76,
+      "phone": "+971512458591",
+      "email": "omar.tageldin@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-11-06"
+      ],
+      "bio": "Cybersecurity engineering student (Aleppo University)"
+    },
+    {
+      "id": "usher-02",
+      "name": "Fatima Al Mazrouei",
+      "nationality": "Emirati",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "Abu Dhabi Sustainability Week 2026",
+        "ADNOC Abu Dhabi Marathon"
+      ],
+      "skills": [
+        "info desk",
+        "registration",
+        "VIP hosting"
+      ],
+      "rating": 4.3,
+      "reliabilityScore": 72,
+      "phone": "+971584335942",
+      "email": "fatima.al.mazrouei@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-11-05",
+        "2026-12-04",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-03",
+      "name": "Mariam Al Shamsi",
+      "nationality": "Emirati",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 4,
+      "pastEvents": [
+        "Dubai World Cup 2026",
+        "GITEX Global 2025"
+      ],
+      "skills": [
+        "stage",
+        "VIP hosting",
+        "info desk"
+      ],
+      "rating": 4.7,
+      "reliabilityScore": 94,
+      "phone": "+971566708456",
+      "email": "mariam.al.shamsi@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-08",
+        "2026-12-03"
+      ]
+    },
+    {
+      "id": "usher-04",
+      "name": "Youssef El-Sayed",
+      "nationality": "Egyptian",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 5,
+      "pastEvents": [
+        "GITEX Global 2025",
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "scanning",
+        "registration",
+        "F&B"
+      ],
+      "rating": 3.7,
+      "reliabilityScore": 75,
+      "phone": "+971556770619",
+      "email": "youssef.elsayed@gmail.com",
+      "availability": [
+        "2026-10-07",
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-07"
+      ]
+    },
+    {
+      "id": "usher-05",
+      "name": "Nourhan Abdelrahman",
+      "nationality": "Egyptian",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "Special Olympics World Games Abu Dhabi legacy event",
+        "ADNOC Abu Dhabi Marathon"
+      ],
+      "skills": [
+        "kids",
+        "F&B",
+        "info desk"
+      ],
+      "rating": 5.0,
+      "reliabilityScore": 84,
+      "phone": "+971515918715",
+      "email": "nourhan.abdelrahman@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-12-03",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-06",
+      "name": "Karim Haddad",
+      "nationality": "Lebanese",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English",
+        "French"
+      ],
+      "yearsExperience": 6,
+      "pastEvents": [
+        "Emirates Airline Festival of Literature",
+        "Dubai Design Week 2025"
+      ],
+      "skills": [
+        "stage",
+        "VIP hosting",
+        "scanning"
+      ],
+      "rating": 4.5,
+      "reliabilityScore": 96,
+      "phone": "+971542338687",
+      "email": "karim.haddad@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-11-05",
+        "2026-12-05"
+      ]
+    },
+    {
+      "id": "usher-07",
+      "name": "Layla Khoury",
+      "nationality": "Lebanese",
+      "city": "Sharjah",
+      "languages": [
+        "Arabic",
+        "English",
+        "French"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "Sharjah International Book Fair",
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "registration",
+        "info desk",
+        "F&B"
+      ],
+      "rating": 4.2,
+      "reliabilityScore": 98,
+      "phone": "+971553728882",
+      "email": "layla.khoury@gmail.com",
+      "availability": [
+        "2026-10-07",
+        "2026-11-06",
+        "2026-11-08"
+      ]
+    },
+    {
+      "id": "usher-08",
+      "name": "Ahmad Qassem",
+      "nationality": "Jordanian",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 4,
+      "pastEvents": [
+        "Abu Dhabi Grand Prix 2025",
+        "Mubadala World Tennis Championship 2025"
+      ],
+      "skills": [
+        "scanning",
+        "stage",
+        "registration"
+      ],
+      "rating": 4.5,
+      "reliabilityScore": 77,
+      "phone": "+971585107245",
+      "email": "ahmad.qassem@gmail.com",
+      "availability": [
+        "2026-10-07",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07"
+      ]
+    },
+    {
+      "id": "usher-09",
+      "name": "Rana Al-Bitar",
+      "nationality": "Jordanian",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "Dubai Design Week 2025",
+        "Expo City Dubai community event"
+      ],
+      "skills": [
+        "kids",
+        "F&B",
+        "info desk"
+      ],
+      "rating": 5.0,
+      "reliabilityScore": 92,
+      "phone": "+971584684531",
+      "email": "rana.albitar@gmail.com",
+      "availability": [
+        "2026-11-06",
+        "2026-11-08",
+        "2026-12-03"
+      ]
+    },
+    {
+      "id": "usher-10",
+      "name": "Priya Nair",
+      "nationality": "Indian",
+      "city": "Dubai",
+      "languages": [
+        "English",
+        "Hindi",
+        "Malayalam"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "GITEX Global 2025",
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "registration",
+        "scanning",
+        "info desk"
+      ],
+      "rating": 4.2,
+      "reliabilityScore": 74,
+      "phone": "+971536279418",
+      "email": "priya.nair@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-11-05",
+        "2026-11-07",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-11",
+      "name": "Arjun Menon",
+      "nationality": "Indian",
+      "city": "Abu Dhabi",
+      "languages": [
+        "English",
+        "Hindi",
+        "Malayalam"
+      ],
+      "yearsExperience": 5,
+      "pastEvents": [
+        "Abu Dhabi Grand Prix 2025",
+        "ADNOC Abu Dhabi Marathon"
+      ],
+      "skills": [
+        "stage",
+        "VIP hosting",
+        "scanning"
+      ],
+      "rating": 4.8,
+      "reliabilityScore": 92,
+      "phone": "+971573396987",
+      "email": "arjun.menon@gmail.com",
+      "availability": [
+        "2026-11-08",
+        "2026-12-03",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-12",
+      "name": "Sneha Reddy",
+      "nationality": "Indian",
+      "city": "Sharjah",
+      "languages": [
+        "English",
+        "Hindi",
+        "Telugu"
+      ],
+      "yearsExperience": 1,
+      "pastEvents": [
+        "Sharjah Light Festival"
+      ],
+      "skills": [
+        "kids",
+        "F&B"
+      ],
+      "rating": 4.6,
+      "reliabilityScore": 85,
+      "phone": "+971597700828",
+      "email": "sneha.reddy@gmail.com",
+      "availability": [
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-13",
+      "name": "Maria Santos",
+      "nationality": "Filipino",
+      "city": "Dubai",
+      "languages": [
+        "English",
+        "Tagalog"
+      ],
+      "yearsExperience": 4,
+      "pastEvents": [
+        "Dubai World Cup 2026",
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "F&B",
+        "VIP hosting",
+        "info desk"
+      ],
+      "rating": 3.7,
+      "reliabilityScore": 73,
+      "phone": "+971513564251",
+      "email": "maria.santos@gmail.com",
+      "availability": [
+        "2026-11-04",
+        "2026-11-05",
+        "2026-12-03",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-14",
+      "name": "Jerome Cruz",
+      "nationality": "Filipino",
+      "city": "Abu Dhabi",
+      "languages": [
+        "English",
+        "Tagalog"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "Mubadala World Tennis Championship 2025",
+        "ADNOC Abu Dhabi Marathon"
+      ],
+      "skills": [
+        "scanning",
+        "registration",
+        "stage"
+      ],
+      "rating": 4.1,
+      "reliabilityScore": 91,
+      "phone": "+971579877065",
+      "email": "jerome.cruz@gmail.com",
+      "availability": [
+        "2026-10-07",
+        "2026-11-08",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-15",
+      "name": "Angelica Reyes",
+      "nationality": "Filipino",
+      "city": "Dubai",
+      "languages": [
+        "English",
+        "Tagalog"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "Dubai Design Week 2025"
+      ],
+      "skills": [
+        "kids",
+        "F&B",
+        "info desk"
+      ],
+      "rating": 4.7,
+      "reliabilityScore": 82,
+      "phone": "+971515924115",
+      "email": "angelica.reyes@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-11-06",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-16",
+      "name": "Bilal Ahmed",
+      "nationality": "Pakistani",
+      "city": "Abu Dhabi",
+      "languages": [
+        "English",
+        "Urdu"
+      ],
+      "yearsExperience": 5,
+      "pastEvents": [
+        "Abu Dhabi Grand Prix 2025",
+        "Etihad Airways activation"
+      ],
+      "skills": [
+        "stage",
+        "scanning",
+        "VIP hosting"
+      ],
+      "rating": 4.7,
+      "reliabilityScore": 88,
+      "phone": "+971516007072",
+      "email": "bilal.ahmed@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-11-04",
+        "2026-11-06",
+        "2026-12-03",
+        "2026-12-05"
+      ]
+    },
+    {
+      "id": "usher-17",
+      "name": "Ayesha Khan",
+      "nationality": "Pakistani",
+      "city": "Dubai",
+      "languages": [
+        "English",
+        "Urdu"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "GITEX Global 2025"
+      ],
+      "skills": [
+        "registration",
+        "info desk",
+        "F&B"
+      ],
+      "rating": 4.4,
+      "reliabilityScore": 96,
+      "phone": "+971581009594",
+      "email": "ayesha.khan@gmail.com",
+      "availability": [
+        "2026-11-04",
+        "2026-11-07",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-18",
+      "name": "Hamza Malik",
+      "nationality": "Pakistani",
+      "city": "Sharjah",
+      "languages": [
+        "English",
+        "Urdu"
+      ],
+      "yearsExperience": 1,
+      "pastEvents": [
+        "Sharjah International Book Fair"
+      ],
+      "skills": [
+        "kids",
+        "F&B"
+      ],
+      "rating": 4.8,
+      "reliabilityScore": 98,
+      "phone": "+971545017343",
+      "email": "hamza.malik@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-11-07",
+        "2026-12-03"
+      ]
+    },
+    {
+      "id": "usher-19",
+      "name": "Sara Al Nuaimi",
+      "nationality": "Emirati",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "Abu Dhabi Sustainability Week 2026",
+        "Mubadala World Tennis Championship 2025"
+      ],
+      "skills": [
+        "VIP hosting",
+        "info desk",
+        "stage"
+      ],
+      "rating": 4.9,
+      "reliabilityScore": 74,
+      "phone": "+971572161193",
+      "email": "sara.al.nuaimi@gmail.com",
+      "availability": [
+        "2026-11-05",
+        "2026-12-05"
+      ]
+    },
+    {
+      "id": "usher-20",
+      "name": "Khalid Al Falasi",
+      "nationality": "Emirati",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 6,
+      "pastEvents": [
+        "Dubai World Cup 2026",
+        "GITEX Global 2025"
+      ],
+      "skills": [
+        "stage",
+        "VIP hosting",
+        "scanning"
+      ],
+      "rating": 3.8,
+      "reliabilityScore": 88,
+      "phone": "+971598099076",
+      "email": "khalid.al.falasi@gmail.com",
+      "availability": [
+        "2026-11-04",
+        "2026-12-03",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-21",
+      "name": "Rami Nassar",
+      "nationality": "Syrian",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 2,
+      "pastEvents": [
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "registration",
+        "scanning",
+        "F&B"
+      ],
+      "rating": 4.2,
+      "reliabilityScore": 93,
+      "phone": "+971558350099",
+      "email": "rami.nassar@gmail.com",
+      "availability": [
+        "2026-11-05",
+        "2026-11-06",
+        "2026-12-04"
+      ]
+    },
+    {
+      "id": "usher-22",
+      "name": "Dana Sabbagh",
+      "nationality": "Syrian",
+      "city": "Sharjah",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 1,
+      "pastEvents": [
+        "Sharjah Light Festival"
+      ],
+      "skills": [
+        "kids",
+        "info desk"
+      ],
+      "rating": 3.6,
+      "reliabilityScore": 89,
+      "phone": "+971534694634",
+      "email": "dana.sabbagh@gmail.com",
+      "availability": [
+        "2026-10-07",
+        "2026-11-04",
+        "2026-11-05",
+        "2026-12-05",
+        "2026-12-06"
+      ]
+    },
+    {
+      "id": "usher-23",
+      "name": "Tarek Fawzy",
+      "nationality": "Egyptian",
+      "city": "Abu Dhabi",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 4,
+      "pastEvents": [
+        "ADNOC Abu Dhabi Marathon",
+        "Abu Dhabi Grand Prix 2025"
+      ],
+      "skills": [
+        "scanning",
+        "stage",
+        "registration"
+      ],
+      "rating": 3.9,
+      "reliabilityScore": 73,
+      "phone": "+971552188789",
+      "email": "tarek.fawzy@gmail.com",
+      "availability": [
+        "2026-10-06",
+        "2026-10-07"
+      ]
+    },
+    {
+      "id": "usher-24",
+      "name": "Farah Zahran",
+      "nationality": "Egyptian",
+      "city": "Dubai",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "yearsExperience": 3,
+      "pastEvents": [
+        "Dubai Design Week 2025",
+        "Dubai Shopping Festival"
+      ],
+      "skills": [
+        "F&B",
+        "info desk",
+        "VIP hosting"
+      ],
+      "rating": 4.4,
+      "reliabilityScore": 95,
+      "phone": "+971598930103",
+      "email": "farah.zahran@gmail.com",
+      "availability": [
+        "2026-11-05",
+        "2026-11-06",
+        "2026-12-03"
+      ]
+    }
+  ]
+}
