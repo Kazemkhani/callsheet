@@ -4,9 +4,9 @@ import type { RunStage } from "@/lib/types";
 import { STAGE_STEPS, stageStepIndex } from "@/lib/ui/roster";
 
 /**
- * Eight segments of one track. Done is olive, the step running now is ink, the
- * rest stay at rule weight: the coordinator can see where the agent is without
- * reading a word.
+ * Eight segments of one track, set on the charcoal band. Done is olive, the step
+ * running now is paper, the rest stay at band-rule weight: the coordinator can
+ * see where the agent is without reading a word.
  */
 export function StageStepper({ stage }: { stage: RunStage }) {
   const current = stageStepIndex(stage);
@@ -27,16 +27,16 @@ export function StageStepper({ stage }: { stage: RunStage }) {
               <span
                 aria-hidden="true"
                 className={`stage-motion block h-[3px] ${
-                  done ? "bg-olive" : active ? "bg-ink" : "bg-rule"
+                  done ? "bg-ink-olive" : active ? "bg-paper" : "bg-ink-rule"
                 }`}
               />
               <span
                 className={`stage-motion label-caps mt-2 block truncate ${
                   done
-                    ? "text-olive"
+                    ? "text-ink-olive"
                     : active
-                      ? "font-medium text-ink"
-                      : "text-ink-muted"
+                      ? "font-medium text-paper"
+                      : "text-ink-label"
                 }`}
               >
                 {step}

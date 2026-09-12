@@ -2,13 +2,17 @@
 
 @theme {
   --color-paper: #f4f1ea;
-  --color-paper-deep: #ebe7dd;
+  --color-paper-deep: #ede9e0;
   --color-card: #fbf9f4;
   --color-ink: #1a1917;
   --color-ink-muted: #5c574f;
   --color-rule: #d9d3c7;
   --color-signal: #c8401f;
   --color-olive: #4f6d3a;
+  /* The charcoal anchor band: labels, rules and done-state read on ink, not paper. */
+  --color-ink-label: #b8b1a4;
+  --color-ink-rule: #3a3834;
+  --color-ink-olive: #8fb07a;
 
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
@@ -33,7 +37,7 @@
   --text-mega: 2.75rem;
   --text-mega--line-height: 2.875rem;
   /* The fill meter is the one number the coordinator reads from across a room. */
-  --text-meter: 3.5rem;
+  --text-meter: 3rem;
   --text-meter--line-height: 3.25rem;
 }
 
@@ -73,6 +77,14 @@
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
+}
+
+/* Brief band field names: same small caps, set larger because they carry the terms. */
+@utility field-caps {
+  font-size: var(--text-caption);
+  line-height: 1.125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* Small caps labels: tool names in the feed, field names in the brief band. */

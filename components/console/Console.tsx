@@ -115,8 +115,8 @@ export function Console() {
         </div>
       ) : null}
 
-      <header className="border-b border-rule">
-        <div className="mx-auto flex w-full max-w-[1360px] flex-wrap items-baseline justify-between gap-x-6 gap-y-2 px-8 py-5">
+      <header className="border-b border-ink">
+        <div className="mx-auto flex w-full max-w-[1360px] flex-wrap items-baseline justify-between gap-x-6 gap-y-2 px-8 py-4">
           <div className="flex items-baseline gap-4">
             <span className="font-display text-[1.5rem] leading-7 font-bold tracking-tight">
               Callsheet
@@ -139,11 +139,7 @@ export function Console() {
         </div>
       </header>
 
-      <main
-        className={`mx-auto w-full max-w-[1360px] flex-1 px-8 pt-8 ${
-          awaitingApproval ? "pb-12" : "pb-20"
-        }`}
-      >
+      <div className="mx-auto w-full max-w-[1360px] px-8 py-4">
         <RequestStrip
           request={showEditor ? request : (state.request ?? request)}
           onChange={setRequest}
@@ -157,50 +153,51 @@ export function Console() {
           }}
           onCancel={() => setEditing(false)}
         />
+      </div>
 
-        <section className="mt-16">
+      {/* The anchor. Name, terms and progress carry the full width in charcoal,
+          so the eye lands here before it reaches the call sheet. */}
+      <section className="bg-ink text-paper">
+        <div className="mx-auto w-full max-w-[1360px] px-8 py-8">
           <h1 className="font-display text-headline font-bold tracking-tight text-balance">
             {brief ? brief.name : "No request yet"}
           </h1>
+
           {brief && place ? (
-            <p className="mt-2 text-body text-ink-muted">
-              {place}
-              {brief.organiser ? `. Organised by ${brief.organiser}.` : "."}
-            </p>
+            <BriefBand brief={brief} place={place} />
           ) : (
-            <p className="mt-4 max-w-2xl text-body text-ink-muted">
+            <p className="mt-2 max-w-3xl text-[14px] leading-5 text-ink-label">
               Paste the staffing message you would normally broadcast to the
               group. The agent researches the event, verifies past experience,
               builds the roster and then waits for you.
             </p>
           )}
 
-          {brief ? (
-            <div className="mt-6">
-              <BriefBand brief={brief} />
-            </div>
-          ) : null}
-        </section>
-
-        <div className="mt-10">
-          <StageStepper stage={state.stage} />
+          <div className="mt-4">
+            <StageStepper stage={state.stage} />
+          </div>
         </div>
+      </section>
 
-        <div className="mt-16 grid grid-cols-1 items-start gap-x-12 gap-y-16 lg:grid-cols-[minmax(0,1fr)_340px]">
-          <section className="min-w-0">
-            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-              <div>
+      <main className="mx-auto w-full max-w-[1360px] flex-1 px-8 pt-8 pb-[120px]">
+        <div className="grid grid-cols-1 items-start gap-x-12 gap-y-12 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <section className="min-w-0 border border-rule bg-card p-8">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
+              <div className="min-w-0">
                 <p className="label-caps text-ink-muted">Call sheet</p>
-                <p className="mt-2 font-display text-meter font-bold tracking-tight tabular-nums">
-                  {totals.confirmed}
-                  <span className="text-ink-muted"> / {totals.needed}</span>
+                <p className="mt-2 text-caption text-ink-muted">
+                  <span className="num">{totals.sent}</span> awaiting reply,{" "}
+                  <span className="num">{totals.declined}</span> declined,{" "}
+                  <span className="num">{totals.waitlisted}</span> on the
+                  waitlist
                 </p>
-                <p className="label-caps mt-1 text-ink-muted">confirmed</p>
               </div>
-              <p className="text-caption text-ink-muted">
-                <span className="num">{totals.sent}</span> awaiting reply,{" "}
-                <span className="num">{totals.declined}</span> declined,{" "}
-                <span className="num">{totals.waitlisted}</span> on the waitlist
+              <p className="font-display text-meter font-bold tracking-tight tabular-nums">
+                {totals.confirmed}
+                <span className="text-ink-muted"> / {totals.needed}</span>
+                <span className="label-caps ml-3 text-ink-muted">
+                  confirmed
+                </span>
               </p>
             </div>
 
@@ -235,7 +232,7 @@ export function Console() {
             </div>
           </section>
 
-          <aside className="flex w-full min-w-0 flex-col gap-10">
+          <aside className="flex w-full min-w-0 flex-col gap-8">
             <LiveFeed events={logEvents} />
             <WorkspaceCard workspace={state.workspace} />
           </aside>

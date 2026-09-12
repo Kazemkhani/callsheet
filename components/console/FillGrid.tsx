@@ -126,8 +126,10 @@ export function FillGrid({ rows }: { rows: AreaRow[] }) {
           className="grid grid-cols-[minmax(140px,180px)_1fr] items-start gap-6 border-t border-rule py-5 first:border-t-0 first:pt-0"
         >
           <div className="min-w-0">
-            <h3 className="text-lead leading-tight">{row.area}</h3>
-            <p className="num mt-1 text-micro text-ink-muted">
+            <h3 className="font-display text-[20px] leading-6 font-semibold">
+              {row.area}
+            </h3>
+            <p className="num mt-1 text-caption text-ink-muted">
               <span className={row.confirmed > 0 ? "text-olive" : undefined}>
                 {row.confirmed}
               </span>

@@ -14,7 +14,7 @@ export function LiveFeed({ events }: { events: AgentEvent[] }) {
 
   return (
     <section className="border border-rule bg-card">
-      <header className="flex items-baseline justify-between gap-4 border-b border-rule px-4 py-3">
+      <header className="flex items-baseline justify-between gap-4 border-b border-rule bg-paper-deep px-4 py-3">
         <h2 className="flex items-baseline gap-2 font-display text-lead font-semibold">
           Live
         </h2>
@@ -24,7 +24,7 @@ export function LiveFeed({ events }: { events: AgentEvent[] }) {
       </header>
 
       {feed.rows.length === 0 ? (
-        <p className="px-4 py-4 text-caption text-ink-muted">
+        <p className="p-3 text-caption text-ink-muted">
           No tool calls yet.
         </p>
       ) : (
@@ -32,7 +32,7 @@ export function LiveFeed({ events }: { events: AgentEvent[] }) {
           {feed.rows.map((row) => (
             <li
               key={row.id}
-              className="border-b border-rule px-4 py-3 last:border-b-0"
+              className="border-b border-rule p-3 last:border-b-0"
             >
               <div className="flex items-baseline justify-between gap-3">
                 <span

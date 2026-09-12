@@ -5,9 +5,9 @@ import { dateRange, sentenceCase, shortDate, venueCheck } from "@/lib/ui/roster"
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0 border-l border-rule pl-4 first:border-l-0 first:pl-0">
-      <dt className="label-caps text-ink-muted">{label}</dt>
-      <dd className="mt-1 text-body">{value}</dd>
+    <div className="min-w-0 border-l border-ink-rule pl-4 first:border-l-0 first:pl-0">
+      <dt className="field-caps text-ink-label">{label}</dt>
+      <dd className="mt-1 text-[18px] leading-6">{value}</dd>
     </div>
   );
 }
@@ -26,39 +26,37 @@ function trainingLine(brief: EventBrief): string {
 
 /**
  * The brief is the agent's argument for itself: what it read, what it corrected
- * and the terms every offer will quote. It sits under the event name because a
- * coordinator checks the terms before looking at a single name.
+ * and the terms every offer will quote. It sits on the charcoal band under the
+ * event name because a coordinator checks the terms before looking at a name.
  */
-export function BriefBand({ brief }: { brief: EventBrief }) {
+export function BriefBand({ brief, place }: { brief: EventBrief; place: string }) {
   const venue = venueCheck(brief);
+  const organiser = brief.organiser ? `Organised by ${brief.organiser}. ` : "";
 
   return (
     <div>
       {venue.corrected ? (
-        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-y border-rule bg-paper-deep px-4 py-3">
-          <p className="min-w-0 text-body">
-            <span className="label-caps mr-3 text-ink-muted">
-              Venue corrected
-            </span>
-            <span className="text-ink-muted line-through decoration-ink-muted">
-              {venue.stated}
-            </span>
-            <span className="mx-2 text-ink-muted">verified as</span>
-            <span className="font-medium">{venue.resolved}</span>
-          </p>
-          <p className="num shrink-0 text-caption text-ink-muted">
-            {venue.sources} sources
-          </p>
-        </div>
-      ) : venue.sources > 0 ? (
-        <p className="text-caption text-ink-muted">
-          <span className="label-caps mr-3">Venue verified</span>
-          {venue.resolved}, against{" "}
+        <p className="mt-2 text-[14px] leading-5 text-ink-label">
+          {organiser}Venue corrected from{" "}
+          <span className="line-through decoration-ink-label">
+            {venue.stated}
+          </span>{" "}
+          to <span className="text-paper">{venue.resolved}</span>,{" "}
           <span className="num">{venue.sources}</span> sources
         </p>
-      ) : null}
+      ) : (
+        <p className="mt-2 text-[14px] leading-5 text-ink-label">
+          {place}. {organiser}
+          {venue.sources > 0 ? (
+            <>
+              Venue verified, <span className="num">{venue.sources}</span>{" "}
+              sources
+            </>
+          ) : null}
+        </p>
+      )}
 
-      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 lg:grid-cols-6">
+      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 lg:grid-cols-6">
         <Field label="Dates" value={dateRange(brief.dates)} />
         <Field
           label="Hours"

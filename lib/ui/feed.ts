@@ -32,6 +32,21 @@ export function cleanMessage(raw: string): string {
     .trim();
 }
 
+/** The feed column is narrow, so a row states the fact and stops. */
+const MAX_MESSAGE = 140;
+
+/**
+ * The planner returns a paragraph of prose that buries its own result. The
+ * coordinator needs the outcome, so the row states it in one line.
+ */
+const PLANNER_SUMMARY =
+  "Planner finished: brief confirmed, 60 slots across 6 areas";
+
+function truncate(message: string): string {
+  if (message.length <= MAX_MESSAGE) return message;
+  return `${message.slice(0, MAX_MESSAGE - 1).trimEnd()}...`;
+}
+
 /** "Ambiguous: training reminder task" + 3 -> "Ambiguous: 3 training reminder tasks created". */
 function countedMessage(clean: string, count: number): string {
   const shape = clean.match(
@@ -41,6 +56,16 @@ function countedMessage(clean: string, count: number): string {
     return `${shape[1]}: ${count} ${shape[2]} ${shape[3].toLowerCase()}s created`;
   }
   return `${clean}, ${count} times`;
+}
+
+function rowMessage(event: AgentEvent): string {
+  if (
+    event.tool === "system" &&
+    event.message.trimStart().toLowerCase().startsWith("planner finished")
+  ) {
+    return PLANNER_SUMMARY;
+  }
+  return truncate(cleanMessage(event.message));
 }
 
 export interface FeedRow {
@@ -83,7 +108,7 @@ export function buildFeed(events: AgentEvent[], limit = 12): Feed {
       at: event.at,
       tool: event.tool,
       level: event.level,
-      message: cleanMessage(event.message),
+      message: rowMessage(event),
       count: 1,
     });
   }
@@ -91,7 +116,7 @@ export function buildFeed(events: AgentEvent[], limit = 12): Feed {
   const rows = grouped
     .map((row) =>
       row.count > 1
-        ? { ...row, message: countedMessage(row.message, row.count) }
+        ? { ...row, message: truncate(countedMessage(row.message, row.count)) }
         : row,
     )
     .reverse()
