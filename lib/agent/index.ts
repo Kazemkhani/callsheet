@@ -67,8 +67,8 @@ export async function toolResearchEvent(name: string, statedVenue?: string): Pro
     await appendEvent({
       tool: "research_event",
       level: res.verifiedVenue ? "info" : "warn",
-      message: `Exa: ${res.sources.length} sources, ${venueLine}`,
-      data: { sources: res.sources, organiser: res.organiser },
+      message: `Exa: ${venueLine} from ${res.sources.length} sources`,
+      data: { sources: res.sources, organiser: res.organiser, verifiedVenue: res.verifiedVenue },
     });
     return venueLine;
   } catch (err) {
@@ -173,7 +173,8 @@ export async function writeCallsheet(state?: RunState): Promise<{ id: string; ur
       await appendEvent({
         tool: "write_callsheet",
         level: "info",
-        message: `Ambiguous: call sheet document refreshed (${markdown.split("\n").length} lines) at ${url}`,
+        message: `Ambiguous: call sheet document updated (${markdown.split("\n").length} lines)`,
+        data: { docId: existingId, url, lines: markdown.split("\n").length },
       });
       return { id: existingId, url };
     }
@@ -186,7 +187,8 @@ export async function writeCallsheet(state?: RunState): Promise<{ id: string; ur
     await appendEvent({
       tool: "write_callsheet",
       level: "info",
-      message: `Ambiguous: call sheet document created at ${doc.url}`,
+      message: `Ambiguous: call sheet document created (${markdown.split("\n").length} lines)`,
+      data: { docId: doc.id, url: doc.url, lines: markdown.split("\n").length },
     });
     return doc;
   } catch (err) {
@@ -328,6 +330,11 @@ async function runWithLlm(request: string, planner: { key: string; kind: "openro
   });
 }
 
+/** Workspace task count derived from the offers, so re-running a step can never double count. */
+function countWorkspaceTasks(s: RunState): number {
+  return s.offers.filter((o) => o.ambiguousTaskId).length + s.offers.filter((o) => o.ambiguousTrainingTaskId).length;
+}
+
 // ------------------------------------------------------------------ sending
 
 function offerSubject(brief: EventBrief, offer: Offer): string {
@@ -389,7 +396,8 @@ export async function approveAndSend(runId?: string): Promise<{ sent: number; qu
     await appendEvent({
       tool: "sync_workspace",
       level: "info",
-      message: `Ambiguous: project ${projectId} ready (${(await ambi.workspaceSlug()) ?? "workspace"})`,
+      message: `Ambiguous: staffing project ready in ${(await ambi.workspaceSlug()) ?? "the workspace"}`,
+      data: { projectId, project: `${brief.name}${PROJECT_SUFFIX}` },
     });
   } catch (err) {
     await appendEvent({
@@ -478,6 +486,7 @@ export async function approveAndSend(runId?: string): Promise<{ sent: number; qu
         if (u) u.ambiguousContactId = r.contactId;
       }
     }
+    s.workspace.contacts = (s.crew ?? []).filter((c) => c.ambiguousContactId).length;
     s.stage = "collecting_replies";
   });
 
@@ -512,13 +521,15 @@ export async function approveAndSend(runId?: string): Promise<{ sent: number; qu
         const offer = s.offers.find((o) => o.id === r.id);
         if (offer && r.taskId) offer.ambiguousTaskId = r.taskId;
       }
+      s.workspace.tasks = countWorkspaceTasks(s);
     });
     tasks = taskResults.filter((r) => r.taskId).length;
     const failed = taskResults.filter((r) => r.error);
     await appendEvent({
       tool: "sync_workspace",
       level: failed.length ? "warn" : "info",
-      message: `Ambiguous: ${tasks} confirmation tasks created under project ${projectId}${failed.length ? `, ${failed.length} failed (${failed[0].error})` : ""}`,
+      message: `Ambiguous: ${tasks} confirmation tasks created in the staffing project${failed.length ? `, ${failed.length} failed (${failed[0].error})` : ""}`,
+      data: { projectId, created: tasks, failed: failed.length, firstError: failed[0]?.error },
     });
   }
 
@@ -530,7 +541,13 @@ export async function approveAndSend(runId?: string): Promise<{ sent: number; qu
 export async function recordReply(
   key: string,
   answer: "yes" | "no",
-): Promise<{ offerId: string; status: Offer["status"]; promoted?: string } | null> {
+): Promise<{
+  offerId: string;
+  status: Offer["status"];
+  promoted?: string;
+  trainingTaskId?: string;
+  idempotent?: boolean;
+} | null> {
   const state = await getState();
   const offer =
     state.offers.find((o) => o.id === key) ??
@@ -545,6 +562,30 @@ export async function recordReply(
   }
   const crew = (state.crew ?? []) as SeedUsher[];
   const usher = crew.find((u) => u.id === offer.usherId);
+
+  // A reply is not a command, it is a fact. The same fact arriving twice (Telegram retry, double
+  // tap, replayed webhook) must not create a second task or promote a second body off the
+  // waitlist, so a reply that matches the status already recorded returns the existing state.
+  const settled: Offer["status"] = answer === "yes" ? "confirmed" : "declined";
+  if (offer.status === settled) {
+    await appendEvent({
+      tool: "record_reply",
+      level: "info",
+      message: `${usher?.name ?? offer.usherId} is already ${settled} for ${offer.area}, duplicate ${answer} ignored`,
+      data: {
+        offerId: offer.id,
+        usherId: offer.usherId,
+        trainingTaskId: offer.ambiguousTrainingTaskId,
+      },
+    });
+    return {
+      offerId: offer.id,
+      status: offer.status,
+      trainingTaskId: offer.ambiguousTrainingTaskId,
+      idempotent: true,
+    };
+  }
+
   const now = new Date().toISOString();
   let promoted: string | undefined;
 
@@ -572,7 +613,8 @@ export async function recordReply(
   });
 
   const after = await getState();
-  if (answer === "yes" && after.workspace.projectId && after.brief?.training) {
+  let trainingTaskId = after.offers.find((o) => o.id === offer.id)?.ambiguousTrainingTaskId;
+  if (answer === "yes" && after.workspace.projectId && after.brief?.training && !trainingTaskId) {
     try {
       const taskId = await ambi.createTask({
         projectId: after.workspace.projectId,
@@ -581,16 +623,24 @@ export async function recordReply(
         dueDate: after.brief.training.date,
         priority: "medium",
       });
+      trainingTaskId = taskId;
+      await update((s) => {
+        const target = s.offers.find((o) => o.id === offer.id);
+        if (target) target.ambiguousTrainingTaskId = taskId;
+        s.workspace.tasks = countWorkspaceTasks(s);
+      });
       await appendEvent({
         tool: "sync_workspace",
         level: "info",
-        message: `Ambiguous: training reminder task ${taskId} created`,
+        message: `Ambiguous: training reminder task created for ${usher?.name ?? offer.usherId} (${offer.area})`,
+        data: { taskId, offerId: offer.id, usherId: offer.usherId, area: offer.area },
       });
     } catch (err) {
       await appendEvent({
         tool: "sync_workspace",
         level: "warn",
         message: `training reminder task failed: ${(err as Error).message}`,
+        data: { offerId: offer.id, usherId: offer.usherId },
       });
     }
   }
@@ -606,7 +656,7 @@ export async function recordReply(
     });
   }
 
-  return { offerId: offer.id, status: answer === "yes" ? "confirmed" : "declined", promoted };
+  return { offerId: offer.id, status: settled, promoted, trainingTaskId };
 }
 
 export async function linkTelegramChat(usherKey: string, chatId: string): Promise<Usher | null> {

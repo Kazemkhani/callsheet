@@ -3,6 +3,53 @@ import type { Usher } from "@/lib/types";
 
 const TIMEOUT_MS = 8000;
 
+// Exa enforces 10 req/s. verifyExperience can fan out to 24 ushers x 3 events,
+// so every Exa call funnels through this gate: at most MAX_CONCURRENT in
+// flight, with starts spaced at least REQUEST_SPACING_MS apart.
+const MAX_CONCURRENT = 3;
+const REQUEST_SPACING_MS = 150;
+const RATE_LIMIT_RETRY_DELAY_MS = 1200;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRateLimitError(err: unknown): boolean {
+  const statusCode = (err as { statusCode?: number })?.statusCode;
+  if (statusCode === 429) return true;
+  const msg = (err as Error)?.message ?? String(err);
+  return /429/.test(msg) || /rate limit/i.test(msg);
+}
+
+let activeRequests = 0;
+let earliestNextStart = 0;
+const waiters: Array<() => void> = [];
+
+async function acquireSlot(): Promise<void> {
+  if (activeRequests >= MAX_CONCURRENT) {
+    await new Promise<void>((resolve) => waiters.push(resolve));
+  }
+  activeRequests++;
+  const wait = Math.max(0, earliestNextStart - Date.now());
+  earliestNextStart = Math.max(Date.now(), earliestNextStart) + REQUEST_SPACING_MS;
+  if (wait > 0) await sleep(wait);
+}
+
+function releaseSlot(): void {
+  activeRequests--;
+  const next = waiters.shift();
+  if (next) next();
+}
+
+async function throttled<T>(fn: () => Promise<T>): Promise<T> {
+  await acquireSlot();
+  try {
+    return await fn();
+  } finally {
+    releaseSlot();
+  }
+}
+
 export interface EventResearch {
   verifiedVenue?: string;
   city?: string;
@@ -37,27 +84,42 @@ function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
   });
 }
 
-async function search(query: string, numResults: number, highlights = false): Promise<ExaResult[]> {
+async function runSearch(query: string, numResults: number, highlights: boolean): Promise<ExaResult[]> {
   const exa = client();
-  try {
-    const res = await withTimeout(
-      exa.search(query, {
-        type: "auto",
-        numResults,
-        contents: highlights
-          ? { highlights: true, text: { maxCharacters: 1500 } }
-          : { text: { maxCharacters: 2000 } },
-      } as never),
-      TIMEOUT_MS,
-      "Exa",
-    );
-    return ((res as { results?: ExaResult[] }).results ?? []) as ExaResult[];
-  } catch (err) {
-    const msg = (err as Error)?.message ?? String(err);
-    if (/abort|timeout/i.test(msg)) throw new Error(`Exa timed out after ${TIMEOUT_MS}ms`);
-    if (/429/.test(msg)) throw new Error("Exa 429 rate limited");
-    throw new Error(`Exa search failed: ${msg}`);
-  }
+  const res = await withTimeout(
+    exa.search(query, {
+      type: "auto",
+      numResults,
+      contents: highlights
+        ? { highlights: true, text: { maxCharacters: 1500 } }
+        : { text: { maxCharacters: 2000 } },
+    } as never),
+    TIMEOUT_MS,
+    "Exa",
+  );
+  return ((res as { results?: ExaResult[] }).results ?? []) as ExaResult[];
+}
+
+async function search(query: string, numResults: number, highlights = false): Promise<ExaResult[]> {
+  return throttled(async () => {
+    try {
+      return await runSearch(query, numResults, highlights);
+    } catch (err) {
+      const msg = (err as Error)?.message ?? String(err);
+      if (/abort|timeout/i.test(msg)) throw new Error(`Exa timed out after ${TIMEOUT_MS}ms`);
+      if (isRateLimitError(err)) {
+        await sleep(RATE_LIMIT_RETRY_DELAY_MS);
+        try {
+          return await runSearch(query, numResults, highlights);
+        } catch (retryErr) {
+          const retryMsg = (retryErr as Error)?.message ?? String(retryErr);
+          if (/abort|timeout/i.test(retryMsg)) throw new Error(`Exa timed out after ${TIMEOUT_MS}ms`);
+          throw new Error("Exa 429 rate limited");
+        }
+      }
+      throw new Error(`Exa search failed: ${msg}`);
+    }
+  });
 }
 
 const VENUES = [

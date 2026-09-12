@@ -79,6 +79,7 @@ export interface Offer {
   sentAt?: string;
   respondedAt?: string;
   ambiguousTaskId?: string;
+  ambiguousTrainingTaskId?: string; // set once a training reminder exists, so a repeat yes reuses it
   ambiguousMailId?: string;
   error?: string;            // surfaced, never swallowed
 }
@@ -127,6 +128,8 @@ export interface RunState {
     callsheetDocUrl?: string;
     callsheetDocId?: string;   // added by agent-core: lets the doc be refreshed in place
     projectId?: string;
+    contacts?: number;         // CRM contacts seeded into the workspace by this run
+    tasks?: number;            // workspace tasks created by this run (confirmations + training)
     lastSyncError?: string;
   };
   // Added by agent-core (additive, nothing renamed):

@@ -32,6 +32,9 @@
   --text-headline--line-height: 2.625rem;
   --text-mega: 2.75rem;
   --text-mega--line-height: 2.875rem;
+  /* The fill meter is the one number the coordinator reads from across a room. */
+  --text-meter: 3.5rem;
+  --text-meter--line-height: 3.25rem;
 }
 
 @layer base {
@@ -72,11 +75,33 @@
   font-feature-settings: "tnum" 1;
 }
 
+/* Small caps labels: tool names in the feed, field names in the brief band. */
+@utility label-caps {
+  font-size: var(--text-micro);
+  line-height: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* A long mailbox breaks after the @ and nowhere else. */
+@utility mailbox {
+  font-family: var(--font-mono);
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 /* Slot fill is the only animated moment on the console. */
 @utility slot-motion {
   transition:
     background-color 180ms ease-out,
     border-color 180ms ease-out,
+    color 180ms ease-out;
+}
+
+/* Stage stepper: colour only, on state change. */
+@utility stage-motion {
+  transition:
+    background-color 180ms ease-out,
     color 180ms ease-out;
 }
 

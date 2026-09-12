@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><title>Callsheet demo script</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F4F1EA;--card:#FBF9F4;--ink:#1A1917;--muted:#5C574F;--rule:#D9D3C7;--signal:#C8401F;--olive:#4F6D3A}
+  html{background:var(--paper);color:var(--ink);font:18px/1.5 "IBM Plex Sans",Helvetica,Arial,sans-serif}
+  body{margin:0;padding:40px 24px 80px;max-width:820px;margin-inline:auto}
+  h1{font:700 44px/1.1 Fraunces,Georgia,serif;margin:0 0 8px}
+  .lede{color:var(--muted);margin:0 0 40px;font-size:18px}
+  h2{font:600 24px/1.2 Fraunces,Georgia,serif;margin:56px 0 16px;padding-top:24px;border-top:1px solid var(--rule)}
+  .setup li{margin:0 0 12px}
+  .step{border-top:1px solid var(--rule);padding:24px 0}
+  .step:last-of-type{border-bottom:1px solid var(--rule)}
+  .n{font:700 40px/1 Fraunces,Georgia,serif;color:var(--muted);float:left;width:64px}
+  .where{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--card);background:var(--ink);padding:4px 8px;margin-bottom:10px}
+  .where.phone{background:var(--olive)}
+  .do{font-weight:600;margin:0 0 8px}
+  .say{margin:0;padding-left:16px;border-left:2px solid var(--signal);color:var(--ink)}
+  .say em{font-style:normal;color:var(--muted)}
+  .note{color:var(--muted);font-size:15px;margin-top:8px}
+  code{font:14px "IBM Plex Mono",Menlo,monospace;background:var(--card);border:1px solid var(--rule);padding:1px 6px}
+  .box{background:var(--card);border:1px solid var(--rule);padding:16px 20px;margin:16px 0}
+</style></head><body>
+<h1>Callsheet demo, one take</h1>
+<p class="lede">About ninety seconds. Read the black lines out loud. Do the bold lines. Nothing else.</p>
+
+<h2>Before you press record</h2>
+<ol class="setup">
+  <li>Open Chrome on the MacBook. Window 1: <code>http://localhost:3100/</code> (the console). Make it fill the left two thirds of the screen.</li>
+  <li>Window 2: <code>http://localhost:3100/u/usher-01</code> (Omar's phone). Make it narrow, like a phone, on the right third. Both windows visible at once, so you never switch.</li>
+  <li>Ask Claude for a fresh start (say <code>reset</code>). The console should show the headline <strong>AI Everything Summit 2026</strong> and a bar at the bottom that says <strong>Roster ready</strong>.</li>
+  <li>Press <strong>Cmd + Shift + 5</strong>. Choose <strong>Record Entire Screen</strong>. Click <strong>Options</strong> and pick your microphone. Click <strong>Record</strong>.</li>
+  <li>When you finish, click the small <strong>stop</strong> square in the top menu bar. The video appears on the desktop.</li>
+</ol>
+
+<h2>The script</h2>
+
+<div class="step"><div class="n">1</div><span class="where">Console</span>
+<p class="do">Point at the grey request line at the top.</p>
+<p class="say">"This is what a staffing coordinator types. One line. Sixty ushers, two days, six areas, the rate, the training."</p></div>
+
+<div class="step"><div class="n">2</div><span class="where">Console</span>
+<p class="do">Point at the big headline and the line under it that says Venue verified.</p>
+<p class="say">"Callsheet researched the event on the web with Exa. It verified the venue against five sources and found the organiser on its own."</p></div>
+
+<div class="step"><div class="n">3</div><span class="where">Console</span>
+<p class="do">Point at the progress bar with the words Research, Crew, Verify, Roster, Approve.</p>
+<p class="say">"It searched its own CRM for crew, checked that their past events really happened, and built the roster. Ten per cent of every area is held for first-timers, so newcomers get a real chance."</p></div>
+
+<div class="step"><div class="n">4</div><span class="where">Console</span>
+<p class="do">Scroll down to the rows of name chips. Point at the bar at the bottom that says Roster ready. Do not click yet.</p>
+<p class="say">"Sixty seats proposed. Nothing has been sent. This is the human gate: the agent does the work, a person makes the call."</p></div>
+
+<div class="step"><div class="n">5</div><span class="where">Console</span>
+<p class="do">Click the red button <strong>Approve and send offers</strong>. Wait three seconds.</p>
+<p class="say">"One tap. Offers go out from the agent's own mailbox in Ambiguous, and a task is created for every confirmation it is waiting on."</p></div>
+
+<div class="step"><div class="n">6</div><span class="where phone">Phone window</span>
+<p class="do">Point at the offer on Omar's phone, then click <strong>I'm in</strong>.</p>
+<p class="say">"Omar gets the whole offer: dates, hours, rate, training, transport, and the exact position he was matched to. He taps I'm in. That is the entire application."</p></div>
+
+<div class="step"><div class="n">7</div><span class="where">Console</span>
+<p class="do">Look at the Stage row. Omar's chip has turned green. Point at the Live feed on the right.</p>
+<p class="say">"His seat fills, and a training reminder is created in the agent's task list, automatically."</p></div>
+
+<div class="step"><div class="n">8</div><span class="where">Console</span>
+<p class="do">Say the word <strong>replies</strong> to Claude (or type <code>scripts/demo.sh replies 23</code> in a terminal off screen). Watch the big number climb.</p>
+<p class="say">"Replies land. A decline promotes the next name off the waitlist. The call sheet writes itself."</p></div>
+
+<div class="step"><div class="n">9</div><span class="where">Console</span>
+<p class="do">In the Agent workspace card on the right, click <strong>Open call sheet</strong>. Show the document.</p>
+<p class="say">"Callsheet is a registered coworker in Ambiguous, with its own mailbox, its own CRM, its own tasks, and this document. Sixty ushers, placed on verified experience, in minutes. Not by wasta, over weeks."</p></div>
+
+<div class="box"><strong>If something looks wrong</strong>: stop recording, say <code>reset</code> to Claude, wait ten seconds, start again. Every take is a fresh run.<br>
+<strong>Honesty line if a judge asks</strong>: the 23 replies in step 8 are a simulation for the demo and the log says so; Omar's reply, the emails, the tasks and the document are real.</div>
+</body></html>

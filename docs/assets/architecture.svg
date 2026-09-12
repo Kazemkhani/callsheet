@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" width="1400" height="760" role="img" aria-label="Callsheet architecture: coordinator, agent, Exa, Ambiguous workspace, crew, with the human approval gate between roster and offers">
+  <title>Callsheet architecture</title>
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5C574F"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="760" fill="#F4F1EA"/>
+
+  <text x="60" y="78" font-family="Fraunces, Georgia, serif" font-size="36" font-weight="700" fill="#1A1917">Callsheet architecture</text>
+  <text x="60" y="106" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#5C574F">One request in, sixty offers out, one human tap in the middle.</text>
+  <line x1="60" y1="130" x2="1340" y2="130" stroke="#D9D3C7" stroke-width="1"/>
+
+  <!-- Coordinator -->
+  <rect x="60" y="170" width="290" height="130" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="84" y="204" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">Coordinator</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#5C574F">
+    <text x="84" y="232">Slack #staffing, Bolt Socket Mode</text>
+    <text x="84" y="254">or the web console at /</text>
+    <text x="84" y="276">Posts a plain request. Taps Approve.</text>
+  </g>
+
+  <!-- Agent, before the gate -->
+  <rect x="400" y="170" width="420" height="270" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="424" y="204" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">Callsheet agent</text>
+  <text x="424" y="228" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">OpenAI Agents SDK, TypeScript. lib/agent/index.ts</text>
+  <line x1="424" y1="244" x2="796" y2="244" stroke="#D9D3C7" stroke-width="1"/>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">
+    <text x="424" y="272">research_event</text><text x="640" y="272" fill="#5C574F">Exa, 5 sources</text>
+    <text x="424" y="300">search_crew</text><text x="640" y="300" fill="#5C574F">Ambiguous CRM</text>
+    <text x="424" y="328">verify_experience</text><text x="640" y="328" fill="#5C574F">Exa, per claim</text>
+    <text x="424" y="356">build_roster</text><text x="640" y="356" fill="#5C574F">pure code</text>
+  </g>
+  <line x1="424" y1="376" x2="796" y2="376" stroke="#D9D3C7" stroke-width="1"/>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">
+    <text x="424" y="400">Ten per cent of every area is held for first-timers.</text>
+    <text x="424" y="422">Run stops at awaiting_approval. No side effects yet.</text>
+  </g>
+
+  <!-- Exa -->
+  <rect x="900" y="170" width="440" height="110" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="924" y="204" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">Exa</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#5C574F">
+    <text x="924" y="232">Resolves venue, dates, organiser. ADNOC Centre to ADNEC.</text>
+    <text x="924" y="256">Checks a claimed past event actually happened.</text>
+  </g>
+
+  <!-- Ambiguous -->
+  <rect x="900" y="310" width="440" height="380" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="924" y="344" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">Ambiguous workspace</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">
+    <text x="924" y="368">callsheet@callsheet-workspace.ambi.cc</text>
+    <text x="924" y="388">Coworker of type agent, status ACTIVE, in Callsheet Crew.</text>
+  </g>
+
+  <rect x="924" y="404" width="196" height="80" fill="#F4F1EA" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="940" y="428" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">Mail</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">
+    <text x="940" y="450">Offers from its own</text>
+    <text x="940" y="468">mailbox, keyed</text>
+  </g>
+
+  <rect x="1136" y="404" width="184" height="80" fill="#F4F1EA" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="1152" y="428" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">CRM</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">
+    <text x="1152" y="450">24 usher contacts,</text>
+    <text x="1152" y="468">verified history</text>
+  </g>
+
+  <rect x="924" y="500" width="196" height="80" fill="#F4F1EA" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="940" y="524" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">Tasks</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">
+    <text x="940" y="546">Confirmations and</text>
+    <text x="940" y="564">training reminders</text>
+  </g>
+
+  <rect x="1136" y="500" width="184" height="80" fill="#F4F1EA" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="1152" y="524" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">Documents</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">
+    <text x="1152" y="546">The call sheet,</text>
+    <text x="1152" y="564">rewritten on reply</text>
+  </g>
+
+  <line x1="924" y1="604" x2="1320" y2="604" stroke="#D9D3C7" stroke-width="1"/>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">
+    <text x="924" y="630">The system of record. A human opens the CRM after the</text>
+    <text x="924" y="650">demo and reads every email the agent sent, on the record</text>
+    <text x="924" y="670">of the person it was sent to.</text>
+  </g>
+
+  <!-- The human gate -->
+  <line x1="380" y1="478" x2="840" y2="478" stroke="#C8401F" stroke-width="1"/>
+  <text x="380" y="470" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" letter-spacing="2.2" fill="#C8401F">HUMAN GATE</text>
+  <text x="380" y="500" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">POST /api/agent/approve. One tap. Nothing above the line has left the building.</text>
+
+  <!-- Agent, after the gate -->
+  <rect x="400" y="520" width="420" height="170" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="424" y="554" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">After approval</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#1A1917">
+    <text x="424" y="586">send_offers</text><text x="620" y="586" fill="#5C574F">mail and Telegram</text>
+    <text x="424" y="614">record_reply</text><text x="620" y="614" fill="#5C574F">confirm, waitlist</text>
+    <text x="424" y="642">write_callsheet</text><text x="620" y="642" fill="#5C574F">live document</text>
+  </g>
+  <text x="424" y="670" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">Idempotency keys throughout. A repeat yes creates nothing twice.</text>
+
+  <!-- Crew -->
+  <rect x="60" y="520" width="290" height="170" fill="#FBF9F4" stroke="#D9D3C7" stroke-width="1" rx="4"/>
+  <text x="84" y="554" font-family="Fraunces, Georgia, serif" font-size="20" font-weight="600" fill="#1A1917">Crew</text>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="14" fill="#5C574F">
+    <text x="84" y="586">Telegram DM, inline yes or no</text>
+    <text x="84" y="608">or the phone view at /u/[id]</text>
+    <text x="84" y="638">Yes confirms and assigns a</text>
+    <text x="84" y="660">position. No promotes the waitlist.</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="352" y1="225" x2="394" y2="225" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="373" y="215" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">request</text>
+
+  <line x1="822" y1="225" x2="894" y2="225" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="857" y="215" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">research</text>
+
+  <line x1="822" y1="336" x2="894" y2="336" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="857" y="326" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">read CRM</text>
+
+  <line x1="610" y1="440" x2="610" y2="472" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="622" y="461" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">roster: 60 offers, 12 waitlisted</text>
+
+  <line x1="610" y1="484" x2="610" y2="514" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+
+  <line x1="394" y1="592" x2="356" y2="592" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="375" y="582" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">offer</text>
+
+  <line x1="356" y1="628" x2="394" y2="628" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="375" y="648" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">reply</text>
+
+  <line x1="822" y1="592" x2="894" y2="592" stroke="#5C574F" stroke-width="1" marker-end="url(#head)"/>
+  <text x="857" y="582" text-anchor="middle" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="12" fill="#5C574F">mail, tasks</text>
+
+  <line x1="60" y1="722" x2="1340" y2="722" stroke="#D9D3C7" stroke-width="1"/>
+  <text x="60" y="746" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" fill="#5C574F">Every external call carries an explicit timeout. A failure lands in the event log and the offer is marked queued with the reason, never dropped.</text>
+</svg>

@@ -1,55 +1,63 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import type { AgentEvent } from "@/lib/types";
+import { buildFeed, TOOL_LABEL } from "@/lib/ui/feed";
 import { clockTime } from "@/lib/ui/roster";
 
-const LEVEL_STYLE: Record<AgentEvent["level"], string> = {
-  info: "text-ink",
-  warn: "text-ink-muted",
-  error: "text-signal",
-};
-
-export function EventLog({ events }: { events: AgentEvent[] }) {
-  const scroller = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = scroller.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [events.length]);
+/**
+ * Twelve most recent rows, newest first. Identifiers are stripped and repeated
+ * workspace writes are counted, because a wall of UUIDs tells a coordinator
+ * nothing about whether the agent is doing its job.
+ */
+export function LiveFeed({ events }: { events: AgentEvent[] }) {
+  const feed = buildFeed(events);
 
   return (
-    <section className="flex h-full min-h-0 flex-col border border-rule bg-card">
-      <header className="flex items-baseline justify-between border-b border-rule px-4 py-3">
-        <h2 className="font-display text-lead font-semibold">Agent log</h2>
+    <section className="border border-rule bg-card">
+      <header className="flex items-baseline justify-between gap-4 border-b border-rule px-4 py-3">
+        <h2 className="flex items-baseline gap-2 font-display text-lead font-semibold">
+          Live
+        </h2>
         <span className="num text-micro text-ink-muted">
-          {events.length} events
+          {feed.total} events
         </span>
       </header>
-      <div
-        ref={scroller}
-        className="min-h-0 flex-1 overflow-y-auto px-4 py-3"
-        aria-live="polite"
-      >
-        {events.length === 0 ? (
-          <p className="num text-micro text-ink-muted">
-            waiting for the first tool call
-          </p>
-        ) : (
-          <ol className="flex flex-col gap-2">
-            {events.map((event) => (
-              <li key={event.id} className="num text-micro leading-4">
-                <span className="text-ink-muted">{clockTime(event.at)}</span>
-                <span className="mx-2 text-ink-muted">{event.tool}</span>
-                <span className={LEVEL_STYLE[event.level]}>
-                  {event.level === "error" ? "failed: " : ""}
-                  {event.message}
+
+      {feed.rows.length === 0 ? (
+        <p className="px-4 py-4 text-caption text-ink-muted">
+          No tool calls yet.
+        </p>
+      ) : (
+        <ol aria-live="polite">
+          {feed.rows.map((row) => (
+            <li
+              key={row.id}
+              className="border-b border-rule px-4 py-3 last:border-b-0"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <span
+                  className={`label-caps ${
+                    row.level === "error" ? "text-signal" : "text-ink-muted"
+                  }`}
+                >
+                  {TOOL_LABEL[row.tool]}
                 </span>
-              </li>
-            ))}
-          </ol>
-        )}
-      </div>
+                <span className="num text-[11px] leading-4 text-ink-muted">
+                  {clockTime(row.at)}
+                </span>
+              </div>
+              <p
+                className={`mt-1 text-[14px] leading-5 ${
+                  row.level === "error" ? "text-signal" : "text-ink"
+                }`}
+              >
+                {row.level === "error" ? "Failed: " : ""}
+                {row.message}
+              </p>
+            </li>
+          ))}
+        </ol>
+      )}
     </section>
   );
 }

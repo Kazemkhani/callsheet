@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500" width="1600" height="500" role="img" aria-label="Callsheet: sixty ushers placed on verified experience, in the channel the crew already uses">
+  <title>Callsheet</title>
+  <rect x="0" y="0" width="1600" height="500" fill="#F4F1EA"/>
+
+  <line x1="96" y1="64" x2="1504" y2="64" stroke="#D9D3C7" stroke-width="1"/>
+  <line x1="96" y1="436" x2="1504" y2="436" stroke="#D9D3C7" stroke-width="1"/>
+
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif">
+    <text x="96" y="128" font-size="13" letter-spacing="3.4" fill="#5C574F">UAE EVENT STAFFING</text>
+  </g>
+
+  <text x="96" y="258" font-family="Fraunces, Georgia, serif" font-size="104" font-weight="700" letter-spacing="-2" fill="#1A1917">Callsheet</text>
+
+  <line x1="96" y1="292" x2="940" y2="292" stroke="#D9D3C7" stroke-width="1"/>
+
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" fill="#1A1917">
+    <text x="96" y="332" font-size="20">Sixty ushers placed on verified experience, in the channel the crew already uses.</text>
+  </g>
+  <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" fill="#5C574F">
+    <text x="96" y="368" font-size="16">Slack and Telegram in front. An Ambiguous workspace behind, in the agent's own name.</text>
+  </g>
+
+  <g>
+    <!-- six areas, ten slots each: the call sheet as a seat grid -->
+    <g fill="none" stroke="#D9D3C7" stroke-width="1">
+      <rect x="1020" y="150" width="30" height="22" rx="2"/><rect x="1064" y="150" width="30" height="22" rx="2"/><rect x="1108" y="150" width="30" height="22" rx="2"/><rect x="1152" y="150" width="30" height="22" rx="2"/><rect x="1196" y="150" width="30" height="22" rx="2"/><rect x="1240" y="150" width="30" height="22" rx="2"/><rect x="1284" y="150" width="30" height="22" rx="2"/><rect x="1328" y="150" width="30" height="22" rx="2"/><rect x="1372" y="150" width="30" height="22" rx="2"/><rect x="1416" y="150" width="30" height="22" rx="2"/>
+      <rect x="1020" y="188" width="30" height="22" rx="2"/><rect x="1064" y="188" width="30" height="22" rx="2"/><rect x="1108" y="188" width="30" height="22" rx="2"/><rect x="1152" y="188" width="30" height="22" rx="2"/><rect x="1196" y="188" width="30" height="22" rx="2"/><rect x="1240" y="188" width="30" height="22" rx="2"/><rect x="1284" y="188" width="30" height="22" rx="2"/><rect x="1328" y="188" width="30" height="22" rx="2"/><rect x="1372" y="188" width="30" height="22" rx="2"/><rect x="1416" y="188" width="30" height="22" rx="2"/>
+      <rect x="1020" y="226" width="30" height="22" rx="2"/><rect x="1064" y="226" width="30" height="22" rx="2"/><rect x="1108" y="226" width="30" height="22" rx="2"/><rect x="1152" y="226" width="30" height="22" rx="2"/><rect x="1196" y="226" width="30" height="22" rx="2"/><rect x="1240" y="226" width="30" height="22" rx="2"/><rect x="1284" y="226" width="30" height="22" rx="2"/><rect x="1328" y="226" width="30" height="22" rx="2"/><rect x="1372" y="226" width="30" height="22" rx="2"/><rect x="1416" y="226" width="30" height="22" rx="2"/>
+      <rect x="1020" y="264" width="30" height="22" rx="2"/><rect x="1064" y="264" width="30" height="22" rx="2"/><rect x="1108" y="264" width="30" height="22" rx="2"/><rect x="1152" y="264" width="30" height="22" rx="2"/><rect x="1196" y="264" width="30" height="22" rx="2"/><rect x="1240" y="264" width="30" height="22" rx="2"/><rect x="1284" y="264" width="30" height="22" rx="2"/><rect x="1328" y="264" width="30" height="22" rx="2"/><rect x="1372" y="264" width="30" height="22" rx="2"/><rect x="1416" y="264" width="30" height="22" rx="2"/>
+      <rect x="1020" y="302" width="30" height="22" rx="2"/><rect x="1064" y="302" width="30" height="22" rx="2"/><rect x="1108" y="302" width="30" height="22" rx="2"/><rect x="1152" y="302" width="30" height="22" rx="2"/><rect x="1196" y="302" width="30" height="22" rx="2"/><rect x="1240" y="302" width="30" height="22" rx="2"/><rect x="1284" y="302" width="30" height="22" rx="2"/><rect x="1328" y="302" width="30" height="22" rx="2"/><rect x="1372" y="302" width="30" height="22" rx="2"/><rect x="1416" y="302" width="30" height="22" rx="2"/>
+      <rect x="1020" y="340" width="30" height="22" rx="2"/><rect x="1064" y="340" width="30" height="22" rx="2"/><rect x="1108" y="340" width="30" height="22" rx="2"/><rect x="1152" y="340" width="30" height="22" rx="2"/><rect x="1196" y="340" width="30" height="22" rx="2"/><rect x="1240" y="340" width="30" height="22" rx="2"/><rect x="1284" y="340" width="30" height="22" rx="2"/><rect x="1328" y="340" width="30" height="22" rx="2"/><rect x="1372" y="340" width="30" height="22" rx="2"/><rect x="1416" y="340" width="30" height="22" rx="2"/>
+    </g>
+
+    <!-- confirmed -->
+    <g fill="#4F6D3A">
+      <rect x="1020" y="150" width="30" height="22" rx="2"/><rect x="1064" y="150" width="30" height="22" rx="2"/><rect x="1108" y="150" width="30" height="22" rx="2"/><rect x="1196" y="150" width="30" height="22" rx="2"/>
+      <rect x="1020" y="188" width="30" height="22" rx="2"/><rect x="1108" y="188" width="30" height="22" rx="2"/><rect x="1152" y="188" width="30" height="22" rx="2"/>
+      <rect x="1064" y="226" width="30" height="22" rx="2"/><rect x="1108" y="226" width="30" height="22" rx="2"/><rect x="1240" y="226" width="30" height="22" rx="2"/><rect x="1284" y="226" width="30" height="22" rx="2"/>
+      <rect x="1020" y="264" width="30" height="22" rx="2"/><rect x="1064" y="264" width="30" height="22" rx="2"/><rect x="1152" y="264" width="30" height="22" rx="2"/>
+      <rect x="1020" y="302" width="30" height="22" rx="2"/><rect x="1196" y="302" width="30" height="22" rx="2"/><rect x="1240" y="302" width="30" height="22" rx="2"/>
+      <rect x="1064" y="340" width="30" height="22" rx="2"/><rect x="1108" y="340" width="30" height="22" rx="2"/>
+    </g>
+
+    <!-- one newcomer slot held in every area -->
+    <g fill="none" stroke="#C8401F" stroke-width="1.5">
+      <rect x="1416" y="150" width="30" height="22" rx="2"/>
+      <rect x="1416" y="188" width="30" height="22" rx="2"/>
+      <rect x="1416" y="226" width="30" height="22" rx="2"/>
+      <rect x="1416" y="264" width="30" height="22" rx="2"/>
+      <rect x="1416" y="302" width="30" height="22" rx="2"/>
+      <rect x="1416" y="340" width="30" height="22" rx="2"/>
+    </g>
+
+    <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" fill="#5C574F">
+      <text x="1020" y="392" font-size="13">Six areas, ten slots each. Filled is confirmed. Outlined in red is a newcomer slot held.</text>
+    </g>
+  </g>
+</svg>

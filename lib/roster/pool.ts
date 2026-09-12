@@ -52,13 +52,30 @@ export async function loadSeedUshers(): Promise<SeedUsher[]> {
   return seed.ushers.map(normaliseUsher);
 }
 
+// Two name lists, UAE-diverse (Emirati, Egyptian, Syrian, Jordanian, Lebanese, Indian, Pakistani,
+// Filipino). Bench candidates take a full name from them so a coordinator never sees the same
+// person twice on screen. First names are allocated globally unique, which also guarantees the
+// weaker property the console cares about: no two offers inside one area share a first name.
 const BENCH_FIRST = [
-  "Aisha", "Yasmin", "Hind", "Noor", "Salma", "Lina", "Reem", "Dana",
-  "Zayed", "Saif", "Marwan", "Adel", "Nabil", "Faris", "Jamal", "Waleed",
-  "Anjali", "Divya", "Rohan", "Kiran", "Joel", "Mika", "Grace", "Paolo",
+  "Alia", "Shamma", "Moza", "Hessa", "Maitha", "Zayed", "Saif", "Rashid",
+  "Hamdan", "Sultan", "Mansoor", "Obaid", "Yasmin", "Heba", "Dalia", "Menna",
+  "Mostafa", "Sherif", "Amr", "Hossam", "Tamer", "Lina", "Hala", "Rouba",
+  "Nisreen", "Bassel", "Ammar", "Ghassan", "Haytham", "Ruba", "Dima", "Areej",
+  "Majdi", "Zaid", "Anas", "Mutasem", "Nour", "Carla", "Joelle", "Rita",
+  "Charbel", "Elie", "Nadim", "Wissam", "Anjali", "Divya", "Kavya", "Meera",
+  "Rohan", "Vikram", "Nikhil", "Aditya", "Zainab", "Iqra", "Mehwish", "Sana",
+  "Usman", "Faisal", "Imran", "Adnan", "Grace", "Jasmine", "Kristine", "Liezel",
+  "Marilou", "Paolo", "Rommel", "Dennis", "Jomar", "Arnel",
 ];
 const BENCH_LAST = [
-  "Al Suwaidi", "Haddad", "Rahman", "Fernandes", "Okoro", "Silva", "Iqbal", "Darwish",
+  "Al Suwaidi", "Al Ketbi", "Al Marzooqi", "Al Hammadi", "Al Zaabi",
+  "Mansour", "Ezzat", "Shokry", "Abdel Aziz",
+  "Haddad", "Darwish", "Kanaan",
+  "Al Masri", "Obeidat", "Rawashdeh",
+  "Feghali", "Aoun", "Bou Saab",
+  "Iyer", "Deshpande", "Kulkarni",
+  "Iqbal", "Siddiqui",
+  "Fernandes", "Villanueva", "Dela Cruz", "Bautista",
 ];
 const BENCH_CITIES = ["Abu Dhabi", "Dubai", "Sharjah"];
 
@@ -74,18 +91,60 @@ const AREA_SKILLS: Record<string, string[]> = {
 /**
  * Deterministic bench candidates. Emails use the .invalid TLD (RFC 2606) so an offer can never
  * be delivered to a real mailbox by accident.
+ *
+ * Names are allocated greedily but deterministically: the first unused first name from a rotation
+ * anchored on the candidate index, then the first surname that keeps the full name unique.
+ * `reservedFirstNames` holds the first names already in use by the researched seed crew, so a
+ * bench body can never turn up on the roster as a second "Dana" or a second "Reem".
  */
-export function generateBench(brief: EventBrief, count: number, startIndex = 1): SeedUsher[] {
+export function generateBench(
+  brief: EventBrief,
+  count: number,
+  startIndex = 1,
+  reservedFirstNames: string[] = [],
+): SeedUsher[] {
   const areas = brief.positions.map((p) => String(p.area));
   const out: SeedUsher[] = [];
+  const takenFirst = new Set(reservedFirstNames.map((n) => n.trim().toLowerCase()));
+  const takenFull = new Set<string>();
+  const firstByArea = new Map<string, Set<string>>();
+
   for (let i = 0; i < count; i++) {
     const n = startIndex + i;
-    const area = areas[i % areas.length];
+    const area = areas[i % areas.length] ?? "Info Desk";
+    const areaFirsts = firstByArea.get(area) ?? new Set<string>();
+    firstByArea.set(area, areaFirsts);
+
+    let first: string | undefined;
+    for (let k = 0; k < BENCH_FIRST.length && !first; k++) {
+      const candidate = BENCH_FIRST[(n + k) % BENCH_FIRST.length];
+      if (!takenFirst.has(candidate.toLowerCase())) first = candidate;
+    }
+    if (!first) {
+      // The global list is exhausted; hold the line that shows on screen (unique inside an area).
+      for (let k = 0; k < BENCH_FIRST.length && !first; k++) {
+        const candidate = BENCH_FIRST[(n + k) % BENCH_FIRST.length];
+        if (!areaFirsts.has(candidate.toLowerCase())) first = candidate;
+      }
+    }
+    if (!first) throw new Error(`bench: no distinct first name left for candidate ${n} in ${area}`);
+
+    let last: string | undefined;
+    for (let k = 0; k < BENCH_LAST.length && !last; k++) {
+      const candidate = BENCH_LAST[(n * 3 + k) % BENCH_LAST.length];
+      if (!takenFull.has(`${first} ${candidate}`.toLowerCase())) last = candidate;
+    }
+    if (!last) throw new Error(`bench: no distinct surname left for ${first} (candidate ${n})`);
+
+    takenFirst.add(first.toLowerCase());
+    areaFirsts.add(first.toLowerCase());
+    takenFull.add(`${first} ${last}`.toLowerCase());
+
     const firstTimer = n % 3 === 0; // every third bench body has never worked an event
     const id = `bench-${String(n).padStart(2, "0")}`;
     out.push({
       id,
-      name: `${BENCH_FIRST[n % BENCH_FIRST.length]} ${BENCH_LAST[(n * 3) % BENCH_LAST.length]}`,
+      name: `${first} ${last}`,
       city: BENCH_CITIES[n % BENCH_CITIES.length],
       phone: `+9715${String(1000000 + n * 7919).slice(0, 8)}`,
       email: `${id}@callsheet-demo.invalid`,
@@ -114,7 +173,10 @@ export async function buildCrewPool(brief: EventBrief): Promise<CrewPool> {
   const slots = brief.positions.reduce((n, p) => n + p.needed, 0);
   const usable = seeded.filter((u) => brief.dates.some((d) => u.availability.includes(d)));
   const shortfall = Math.max(0, Math.ceil(slots * 1.25) - usable.length);
-  const bench = shortfall > 0 ? generateBench(brief, shortfall) : [];
+  const bench =
+    shortfall > 0
+      ? generateBench(brief, shortfall, 1, seeded.map((u) => u.name.split(" ")[0]))
+      : [];
   return {
     ushers: [...seeded, ...bench],
     seedCount: seeded.length,

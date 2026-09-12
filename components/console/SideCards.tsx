@@ -1,102 +1,75 @@
 "use client";
 
-import type { EventBrief, RunState } from "@/lib/types";
-import { dateRange } from "@/lib/ui/roster";
+import type { RunState } from "@/lib/types";
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+/** Splits at the @ so a long mailbox wraps there and nowhere else. */
+function Mailbox({ address }: { address: string }) {
+  const at = address.indexOf("@");
+  if (at === -1) return <span className="mailbox text-[13px]">{address}</span>;
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-rule py-2 last:border-b-0">
-      <dt className="text-micro uppercase tracking-wide text-ink-muted">
-        {label}
-      </dt>
-      <dd className="num text-caption text-right">{children}</dd>
-    </div>
+    <span className="mailbox text-[13px] leading-5">
+      {address.slice(0, at + 1)}
+      <wbr />
+      {address.slice(at + 1)}
+    </span>
   );
 }
 
-export function WorkspaceCard({ workspace }: { workspace: RunState["workspace"] }) {
+function plural(count: number, noun: string): string {
+  return `${count} ${noun}${count === 1 ? "" : "s"}`;
+}
+
+export function WorkspaceCard({
+  workspace,
+}: {
+  workspace: RunState["workspace"];
+}) {
+  const counts: string[] = [];
+  if (workspace.contacts) counts.push(plural(workspace.contacts, "contact"));
+  if (workspace.tasks) counts.push(plural(workspace.tasks, "task"));
+
   return (
-    <section className="border border-rule bg-card px-4 py-3">
-      <h2 className="font-display text-lead font-semibold">Workspace</h2>
-      <dl className="mt-2">
-        <Row label="Ambiguous">
-          {workspace.connected ? "connected" : "not connected"}
-        </Row>
-        <Row label="Agent email">
-          {workspace.agentEmail ?? "not provisioned"}
-        </Row>
-        <Row label="Call sheet">
-          {workspace.callsheetDocUrl ? (
-            <a
-              className="underline underline-offset-2 decoration-rule hover:decoration-ink"
-              href={workspace.callsheetDocUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              open document
-            </a>
-          ) : (
-            "not written yet"
-          )}
-        </Row>
-      </dl>
+    <section className="border border-rule bg-card px-4 py-4">
+      <h2 className="font-display text-lead font-semibold">Agent workspace</h2>
+
+      <p className="mt-3 text-caption text-ink-muted">
+        Ambiguous coworker:{" "}
+        <span className="text-ink">Callsheet</span>,{" "}
+        {workspace.connected ? "active" : "not connected"}
+      </p>
+
+      <p className="mt-2 text-ink-muted">
+        {workspace.agentEmail ? (
+          <Mailbox address={workspace.agentEmail} />
+        ) : (
+          <span className="text-caption">Mailbox not provisioned yet.</span>
+        )}
+      </p>
+
+      {workspace.callsheetDocUrl ? (
+        <p className="mt-4">
+          <a
+            className="text-body underline decoration-rule underline-offset-4 hover:decoration-ink"
+            href={workspace.callsheetDocUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open call sheet
+          </a>
+        </p>
+      ) : null}
+
+      {counts.length > 0 ? (
+        <p className="num mt-4 text-micro text-ink-muted">
+          {counts.join(", ")}
+        </p>
+      ) : null}
+
       {workspace.lastSyncError ? (
-        <p className="num mt-2 text-micro text-signal">
-          last sync error: {workspace.lastSyncError}
+        <p className="mt-3 text-caption text-signal">
+          Last sync failed: {workspace.lastSyncError}
         </p>
       ) : null}
-    </section>
-  );
-}
-
-export function BriefCard({ brief }: { brief: EventBrief | null }) {
-  if (!brief) {
-    return (
-      <section className="border border-rule bg-card px-4 py-3">
-        <h2 className="font-display text-lead font-semibold">Brief</h2>
-        <p className="mt-1 text-caption text-ink-muted">
-          No brief yet. The research step writes it from your request.
-        </p>
-      </section>
-    );
-  }
-
-  const corrected =
-    brief.verifiedVenue !== undefined && brief.verifiedVenue !== brief.venue;
-
-  return (
-    <section className="border border-rule bg-card px-4 py-3">
-      <h2 className="font-display text-lead font-semibold">Brief</h2>
-      <p className="mt-1 text-caption text-ink-muted">{brief.name}</p>
-
-      {corrected ? (
-        <div className="mt-2 border border-rule bg-paper-deep px-3 py-2">
-          <p className="num text-micro text-ink">
-            Venue corrected: {brief.venue} {"->"} {brief.verifiedVenue}
-          </p>
-          <p className="num mt-1 text-micro text-ink-muted">
-            {brief.sources?.length ?? 0} sources
-          </p>
-        </div>
-      ) : null}
-
-      <dl className="mt-2">
-        <Row label="Venue">{brief.verifiedVenue ?? brief.venue}</Row>
-        <Row label="Dates">{dateRange(brief.dates)}</Row>
-        <Row label="Shift">
-          {brief.shiftStart} to {brief.shiftEnd}, {brief.hoursPerDay}h
-        </Row>
-        <Row label="Rate">AED {brief.rateAedPerHour.toFixed(2)} per hour</Row>
-        <Row label="Training">
-          {brief.training
-            ? `${dateRange([brief.training.date])}, ${brief.training.durationHours}h${
-                brief.training.mandatory ? ", mandatory" : ""
-              }`
-            : "none"}
-        </Row>
-        <Row label="Transport">{brief.transport}</Row>
-        <Row label="Meals">{brief.meals}</Row>
-      </dl>
     </section>
   );
 }
